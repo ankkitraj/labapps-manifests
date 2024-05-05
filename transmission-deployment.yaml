@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.33.0 (HEAD)
+  labels:
+    io.kompose.service: transmission
+  name: transmission
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: transmission
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.33.0 (HEAD)
+      labels:
+        io.kompose.network/labapp-default: "true"
+        io.kompose.service: transmission
+    spec:
+      containers:
+        - env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: Europe/Berlin
+          image: linuxserver/transmission
+          name: transmission
+          ports:
+            - containerPort: 9091
+              hostPort: 9091
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /downloads
+              name: transmission-claim0
+            - mountPath: /config
+              name: transmission-claim1
+      restartPolicy: Always
+      volumes:
+        - name: transmission-claim0
+          persistentVolumeClaim:
+            claimName: transmission-claim0
+        - name: transmission-claim1
+          persistentVolumeClaim:
+            claimName: transmission-claim1
