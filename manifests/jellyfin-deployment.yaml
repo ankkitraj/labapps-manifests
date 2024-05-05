@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.33.0 (HEAD)
+  labels:
+    io.kompose.service: jellyfin
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: jellyfin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.33.0 (HEAD)
+      labels:
+        io.kompose.network/labapp-default: "true"
+        io.kompose.service: jellyfin
+    spec:
+      containers:
+        - env:
+            - name: PGID
+              value: "1000"
+            - name: PUID
+              value: "1000"
+            - name: TZ
+              value: Europe/Berlin
+          image: jellyfin/jellyfin
+          name: jellyfin
+          ports:
+            - containerPort: 8096
+              hostPort: 8096
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /config
+              name: jellyfin-claim0
+            - mountPath: /data/movies
+              name: jellyfin-claim1
+            - mountPath: /data/tvshows
+              name: jellyfin-claim2
+            - mountPath: /data/music
+              name: jellyfin-claim3
+            - mountPath: /data/photos
+              name: jellyfin-claim4
+      restartPolicy: Always
+      volumes:
+        - name: jellyfin-claim0
+          persistentVolumeClaim:
+            claimName: jellyfin-claim0
+        - name: jellyfin-claim1
+          persistentVolumeClaim:
+            claimName: jellyfin-claim1
+        - name: jellyfin-claim2
+          persistentVolumeClaim:
+            claimName: jellyfin-claim2
+        - name: jellyfin-claim3
+          persistentVolumeClaim:
+            claimName: jellyfin-claim3
+        - name: jellyfin-claim4
+          persistentVolumeClaim:
+            claimName: jellyfin-claim4

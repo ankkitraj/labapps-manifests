@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.33.0 (HEAD)
+  labels:
+    io.kompose.service: watchtower
+  name: watchtower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: watchtower
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.33.0 (HEAD)
+      labels:
+        io.kompose.network/labapp-default: "true"
+        io.kompose.service: watchtower
+    spec:
+      containers:
+        - args:
+            - --interval
+            - "300"
+          image: containrrr/watchtower
+          name: watchtower
+      restartPolicy: Always
