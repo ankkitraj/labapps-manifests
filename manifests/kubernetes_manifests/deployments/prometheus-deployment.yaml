@@ -39,8 +39,9 @@ spec:
             - mountPath: /prometheus     # Ensure to add this volume mount if needed
               name: prometheus-claim0
           securityContext:
-              runAsUser: 501  # Replace <user-id> with the appropriate user ID
-              runAsGroup: 20  # Replace <group-id> with the appropriate group ID    
+              runAsUser: 1000 # Replace <user-id> with the appropriate user ID
+              runAsGroup: 1000  # Replace <group-id> with the appropriate group ID 
+              fsGroup: 1000     # Replace <group-id> with the appropriate group ID    
       restartPolicy: Always
       volumes:
         - name: prometheus-config
