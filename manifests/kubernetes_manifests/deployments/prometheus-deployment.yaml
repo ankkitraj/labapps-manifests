@@ -35,13 +35,14 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /etc/prometheus
+              name: prometheus-config  # Corrected volume name
+            - mountPath: /prometheus     # Ensure to add this volume mount if needed
               name: prometheus-claim0
       restartPolicy: Always
       volumes:
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config   # Corrected ConfigMap name
         - name: prometheus-claim0
           persistentVolumeClaim:
             claimName: prometheus-claim0
-        - name: prometheus-config
-          configMap:
-          name: prometheus-config
-      
