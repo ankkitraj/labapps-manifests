@@ -47,6 +47,6 @@ spec:
         - name: prometheus-config
           configMap:
             name: prometheus-config   # Corrected ConfigMap name
-        - name: prometheus-claim0
+        - name: prometheus-storage
           persistentVolumeClaim:
             claimName: prometheus-claim0
