@@ -23,6 +23,16 @@ spec:
         io.kompose.network/labapp-default: 'true'
         io.kompose.service: prometheus
     spec:
+      initContainers:
+        - name: prometheus-data-permission-fix
+          image: busybox
+          command:
+            - /bin/sh
+            - '-c'
+            - chmod -R 777 /prometheus
+          volumeMounts:
+            - name: prometheus-claim0
+              mountPath: /prometheus
       containers:
         - args:
             - '--config.file=/etc/prometheus/prometheus.yml'
