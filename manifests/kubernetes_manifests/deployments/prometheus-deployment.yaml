@@ -20,13 +20,13 @@ spec:
         kompose.cmd: kompose convert
         kompose.version: 1.33.0 (HEAD)
       labels:
-        io.kompose.network/labapp-default: "true"
+        io.kompose.network/labapp-default: 'true'
         io.kompose.service: prometheus
     spec:
       containers:
         - args:
-            - --config.file=/etc/prometheus/prometheus.yml
-            - --storage.tsdb.path=/prometheus
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
           image: prom/prometheus
           name: prometheus
           ports:
@@ -35,18 +35,25 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /etc/prometheus
-              name: prometheus-config  # Corrected volume name
-            - mountPath: /prometheus     # Ensure to add this volume mount if needed
+              name: prometheus-config # Corrected volume name
+            - mountPath: /prometheus # Ensure to add this volume mount if needed
               name: prometheus-claim0
           securityContext:
-              runAsUser: 1000 # Replace <user-id> with the appropriate user ID
-              runAsGroup: 1000  # Replace <group-id> with the appropriate group ID 
-              fsGroup: 1000     # Replace <group-id> with the appropriate group ID    
+            runAsUser: 1000 # Replace <user-id> with the appropriate user ID
+            runAsGroup: 1000 # Replace <group-id> with the appropriate group ID 
+            fsGroup: 1000 # Replace <group-id> with the appropriate group ID   
+          resources:
+            requests:
+              memory: 64Mi
+              cpu: 250m
+            limits:
+              memory: 128Mi
+              cpu: 500m
       restartPolicy: Always
       volumes:
         - name: prometheus-config
           configMap:
-            name: prometheus-config   # Corrected ConfigMap name
+            name: prometheus-config # Corrected ConfigMap name
         - name: prometheus-storage
           persistentVolumeClaim:
             claimName: prometheus-claim0
