@@ -27,6 +27,7 @@ spec:
         - args:
             - '--config.file=/etc/prometheus/prometheus.yml'
             - '--storage.tsdb.path=/prometheus'
+            - '--log.level=debug'
           image: prom/prometheus
           name: prometheus
           ports:
