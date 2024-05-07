@@ -43,13 +43,7 @@ spec:
             runAsUser: 1000 # Replace <user-id> with the appropriate user ID
             runAsGroup: 1000 # Replace <group-id> with the appropriate group ID 
             fsGroup: 1000 # Replace <group-id> with the appropriate group ID   
-          resources:
-            requests:
-              memory: 64Mi
-              cpu: 250m
-            limits:
-              memory: 128Mi
-              cpu: 500m
+
       restartPolicy: Always
       volumes:
         - name: prometheus-config
