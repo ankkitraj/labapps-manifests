@@ -1,0 +1,15 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: labapps-manifests
+  description: Description of the labapps-manifests repository
+  annotations:
+    github.com/project-slug: ankkitraj/labapps-manifests
+spec:
+  type: service
+  owner: ankkitraj
+  lifecycle: production
+  system: my-system
+  links:
+    - url: https://github.com/ankkitraj/labapps-manifests
+      title: Repository
